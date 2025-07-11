@@ -59,10 +59,13 @@
 <body>
 
 <div class="calculator" aria-label="Kalkuleta ya Ada">
-  <h2>📘 KALKULETA YA ADA (Kwa Mkopo & Bila Mkopo)</h2>
+  <h2>📘 FANYA MAHESABU YA ADA YAKO SASA (Kwa wenye Mkopo na ambao hawana  Mkopo)</h2>
+  <P> Hii ni application inayo kuwezesha kufanya mahesabu ya ada zako<br>
+    kwa wewe mwanafunzi wa chuo bila kumfuata mhasibu kupiga hesabu ni rahisi na bure</P>
 
   <label for="studentType">✅ Aina ya mwanafunzi:</label>
   <select id="studentType" onchange="toggleFields()" aria-required="true">
+    <option value="withLoan">-----weka chaguo la hari yako kama wewe ni mnufaika ama si mnufaika</option>
     <option value="withLoan">📚 Nimepewa mkopo (HESLB)</option>
     <option value="noLoan">🙋‍♂️ Sijapewa mkopo (Binafsi)</option>
   </select>
@@ -80,7 +83,7 @@
     <input type="number" id="feeNoLoan" placeholder="Mfano: 3500000" min="0">
   </div>
 
-  <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000):</label>
+  <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000): tafadhari usisahau kuweka koma(,)</label>
   <input type="text" id="payments" placeholder="Mfano: 500000,200000" inputmode="numeric">
 
   <button onclick="hesabu()">💡 HESABU</button>
