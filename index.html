@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HESLB & Binafsi Fee Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f8;
+      padding: 20px;
+    }
+    .calculator {
+      background: white;
+      padding: 25px;
+      max-width: 700px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #004080;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #004080;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #003060;
+    }
+    #results {
+      margin-top: 30px;
+      background-color: #e6f3ff;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #cce0ff;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator" aria-label="Kalkuleta ya Ada">
+  <h2>📘 KALKULETA YA ADA (Kwa Mkopo & Bila Mkopo)</h2>
+
+  <label for="studentType">✅ Aina ya mwanafunzi:</label>
+  <select id="studentType" onchange="toggleFields()" aria-required="true">
+    <option value="withLoan">📚 Nimepewa mkopo (HESLB)</option>
+    <option value="noLoan">🙋‍♂️ Sijapewa mkopo (Binafsi)</option>
+  </select>
+
+  <div id="loanFields">
+    <label for="loan">1. Jumla ya mkopo kutoka HESLB (TZS):</label>
+    <input type="number" id="loan" placeholder="Mfano: 4000000" min="0">
+
+    <label for="fee">2. Jumla ya ada ya chuo kwa mwaka (TZS):</label>
+    <input type="number" id="fee" placeholder="Mfano: 3500000" min="0">
+  </div>
+
+  <div id="noLoanFields" style="display:none;">
+    <label for="feeNoLoan">1. Ada inayotakiwa kulipwa (TZS):</label>
+    <input type="number" id="feeNoLoan" placeholder="Mfano: 3500000" min="0">
+  </div>
+
+  <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000):</label>
+  <input type="text" id="payments" placeholder="Mfano: 500000,200000" inputmode="numeric">
+
+  <button onclick="hesabu()">💡 HESABU</button>
+
+  <div id="results" role="region" aria-live="polite"></div>
+</div>
+
+<script>
+function toggleFields() {
+  const type = document.getElementById("studentType").value;
+  document.getElementById("loanFields").style.display = (type === "withLoan") ? "block" : "none";
+  document.getElementById("noLoanFields").style.display = (type === "noLoan") ? "block" : "none";
+}
+
+function hesabu() {
+  const boomPerSemester = 617500;
+  const numberOfSemesters = 4;
+  const totalBoom = boomPerSemester * numberOfSemesters;
+  const type = document.getElementById("studentType").value;
+
+  const paymentsInput = document.getElementById("payments").value.trim();
+  const paymentsArray = paymentsInput ? paymentsInput.split(",").map(p => parseFloat(p.trim())) : [];
+
+  const validPayments = paymentsArray.filter(p => !isNaN(p) && p >= 0);
+  const totalSelfPayment = validPayments.reduce((sum, val) => sum + val, 0);
+
+  let results = "";
+
+  if (type === "withLoan") {
+    const loan = parseFloat(document.getElementById("loan").value);
+    const feeRequired = parseFloat(document.getElementById("fee").value);
+
+    if (isNaN(loan) || loan < 0 || isNaN(feeRequired) || feeRequired < 0) {
+      alert("⚠️ Tafadhali jaza mkopo na ada kwa usahihi.");
+      return;
+    }
+
+    const feePaidByHESLB = loan - totalBoom;
+    const totalFeePaid = feePaidByHESLB + totalSelfPayment;
+    const feeRemaining = feeRequired - totalFeePaid;
+
+    results += `
+      <strong>🔎 MATOKEO (Kwa waliopata mkopo):</strong><br><br>
+      💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br>
+      📅 Idadi ya semesters        : ${numberOfSemesters}<br>
+      💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br>
+      🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br>
+      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
+      🧾 Jumla ya ada iliyolipwa   : ${totalFeePaid.toLocaleString()} TZS<br>
+    `;
+
+    if (feeRemaining > 0) {
+      results += `❗ Bado unadaiwa: ${feeRemaining.toLocaleString()} TZS<br>`;
+    } else if (feeRemaining === 0) {
+      results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
+    } else {
+      results += `🎉 Umezidisha malipo kwa: ${(-feeRemaining).toLocaleString()} TZS<br>`;
+    }
+
+  } else {
+    const feeRequired = parseFloat(document.getElementById("feeNoLoan").value);
+
+    if (isNaN(feeRequired) || feeRequired < 0) {
+      alert("⚠️ Tafadhali jaza ada inayotakiwa.");
+      return;
+    }
+
+    const feeRemaining = feeRequired - totalSelfPayment;
+
+    results += `
+      <strong>🔎 MATOKEO (Kwa wasio na mkopo):</strong><br><br>
+      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
+      🧾 Jumla ya ada inayotakiwa  : ${feeRequired.toLocaleString()} TZS<br>
+    `;
+
+    if (feeRemaining > 0) {
+      results += `❗ Bado unadaiwa: ${feeRemaining.toLocaleString()} TZS<br>`;
+    } else if (feeRemaining === 0) {
+      results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
+    } else {
+      results += `🎉 Umezidisha malipo kwa: ${(-feeRemaining).toLocaleString()} TZS<br>`;
+    }
+  }
+
+  document.getElementById("results").innerHTML = results;
+}
+</script>
+
+</body>
+</html>
