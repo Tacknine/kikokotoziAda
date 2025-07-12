@@ -60,11 +60,14 @@
   </style>
 </head>
 <body>
-<img src="logo.jpg" alt="Logo ya Kampuni" width="150" height="auto">
-<div class="calculator" aria-label="Kalkuleta ya Ada">
-  <h2>📘 FANYA MAHESABU YA ADA YAKO SASA (Kwa wenye Mkopo na ambao hawana  Mkopo)</h2>
-  <P> <b>Hii ni application inayo kuwezesha kufanya mahesabu ya ada zako<br>
-    kwa wewe mwanafunzi wa chuo bila kumfuata mhasibu kupiga hesabu ni rahisi na bure</b></P>
+  <div class="calculator" aria-label="Kalkuleta ya Ada">
+  <h2>  Kikokotozi cha Ada za Chuo </h2>
+<style="margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f2f2f2;">
+
+    <img src="logo.png" alt="Logo" style="width: 150px; height: auto;">
+
+  <P> <b> Karibu kwenye Kikokotozi cha Ada za Chuo . Tumia fomu hapa chini kuhesabu ada yako, deni la sasa, muhtasari wa malipo, na ada ya mwaka kwa programu</b>
+    kwa kwanafunzi wa nufaika wa mkopo kutoka bodi ya mkopo tanzania na ambao hawana mkopo yaana si wanufaika</P>
 
   <label for="studentType">✅ Aina ya mwanafunzi:</label>
   <select id="studentType" onchange="toggleFields()" aria-required="true">
@@ -130,12 +133,12 @@ function hesabu() {
 
     results += `
       <strong>🔎 MATOKEO (Kwa waliopata mkopo):</strong><br><br>
-      💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br>
-      📅 Idadi ya semesters        : ${numberOfSemesters}<br>
-      💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br>
-      🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br>
-      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
-      🧾 Jumla ya ada iliyolipwa   : ${totalFeePaid.toLocaleString()} TZS<br>
+      💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br><br>
+      📅 Idadi ya semesters        : ${numberOfSemesters}<br><br>
+      💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br><br>
+      🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br><br>
+      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br><br>
+      🧾 Jumla ya ada iliyolipwa   : ${totalFeePaid.toLocaleString()} TZS<br><br>
     `;
 
     if (feeRemaining > 0) {
