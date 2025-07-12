@@ -29,12 +29,36 @@
       margin-bottom: 10px;
     }
 
-    img {
-      display: block;
+    /* Logo container with 3D perspective */
+    .logo-container {
+      perspective: 800px;
+      width: 140px;
       margin: 10px auto 20px;
-      width: 120px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+    }
+
+    /* Logo image with 3D rotation and glow */
+    .logo-3d {
+      width: 140px;
+      border-radius: 50%;
+      border: 2px solid #00aaff;
+      box-shadow:
+        0 0 25px rgba(0, 170, 255, 0.7),
+        0 0 60px rgba(0, 170, 255, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+      transform: rotateX(10deg) rotateY(-10deg);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      background: white;
+      display: block;
+    }
+
+    /* Hover effect to enhance 3D and glow */
+    .logo-3d:hover {
+      transform: rotateX(0deg) rotateY(0deg) scale(1.1);
+      box-shadow:
+        0 0 40px rgba(0, 170, 255, 0.9),
+        0 0 80px rgba(0, 170, 255, 0.7),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+      cursor: pointer;
     }
 
     label {
@@ -118,7 +142,15 @@
 <body>
   <div class="calculator" aria-label="Kikokotozi cha Ada">
     <h2>Kikokotozi cha Ada za Chuo Elimu ya Biashara (CBE)</h2>
-    <img src="logo.jpg" alt="Nembo ya Chuo cha CBE" />
+
+    <!-- Logo with 3D and glow effect -->
+    <div class="logo-container">
+      <img
+        src="logo.jpg"
+        alt="Nembo ya Chuo cha CBE"
+        class="logo-3d"
+      />
+    </div>
 
     <p><strong>Karibu!</strong> Tumia kikokotozi hiki kuhesabu ada yako kwa mwaka kwa wanafunzi wote: waliopata mkopo (HESLB) na wasiopata (binafsi).</p>
 
@@ -227,8 +259,8 @@
 
         results += `
           <strong>🔎 MATOKEO (Waliopata mkopo):</strong><br><br>
-          💸 Boom kwa mala moja           : ${boomPerSemester.toLocaleString()} TZS<br>
-          📅 Idadi ulizo pokea boom        : ${numberOfSemesters}<br>
+          💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br>
+          📅 Idadi ya semesters        : ${numberOfSemesters}<br>
           💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br>
           🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br>
           🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
