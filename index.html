@@ -1,54 +1,78 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HESLB & Binafsi Fee Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kikokotozi cha Ada - Chuo cha elimu ya biashara ( CBE )</title>
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-         background: linear-gradient(to right, #e0ecff, #f5f7fa, #e0ecff);
-  color: #000; /* maandishi meusi yataonekana vizuri */
-  font-family: sans-serif;
-}
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0ecff, #f5f7fa, #e0ecff);
+      color: #000;
+      margin: 0;
       padding: 20px;
     }
+
     .calculator {
-      background: Grey;
-      padding: 25px;
+      background: #f0f4f8;
       max-width: 700px;
       margin: auto;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     }
+
     h2 {
       color: #004080;
       text-align: center;
+      margin-bottom: 10px;
     }
-    label {
+
+    img {
       display: block;
-      margin-top: 15px;
-      font-weight: bold;
+      margin: 10px auto 20px;
+      width: 120px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
-    input, select, button {
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       font-size: 16px;
       box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
+
+    textarea {
+      resize: vertical;
+    }
+
     button {
       background-color: #004080;
       color: white;
       border: none;
-      margin-top: 20px;
       cursor: pointer;
-      border-radius: 5px;
+      margin-top: 20px;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #003060;
     }
+
     #results {
       margin-top: 30px;
       background-color: #e6f3ff;
@@ -56,127 +80,183 @@
       border-radius: 10px;
       border: 1px solid #cce0ff;
       font-size: 16px;
+      min-height: 100px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      .calculator {
+        padding: 15px;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        font-size: 14px;
+      }
+    }
+
+    /* Small footer styling */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .footer a {
+      color: #004080;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="calculator" aria-label="Kalkuleta ya Ada">
-  <h2>  Kikokotozi cha Ada za Chuo </h2>
-<img src="logo.jpg" alt="Logo" style="display: block; margin-left: auto; margin-right: auto; width: 150px;">
+  <div class="calculator" aria-label="Kikokotozi cha Ada">
+    <h2>Kikokotozi cha Ada za Chuo elimu ya biashara ( CBE ) </h2>
 
+    <img src="logo.jpg" alt="Nembo ya Chuo cha  college of business education" />
 
-  <P> <b> Karibu kwenye Kikokotozi cha Ada za Chuo . Tumia fomu hapa chini kuhesabu ada yako, deni la sasa, muhtasari wa malipo, na ada ya mwaka kwa programu</b><br>
-    kwa kwa wanafunzi wunufaika wa mkopo kutoka bodi ya mkopo tanzania na ambao hawana mkopo yaana si wanufaika</P>
+    <p>
+      <strong>Karibu!</strong> Tumia kikokotozi hiki kuhesabu ada yako kwa mwaka, deni la sasa, muhtasari wa malipo, kwa wanafunzi wote: waliopata mkopo kutoka HESLB na wasiopata mkopo (binafsi).
+    </p>
 
-  <label for="studentType">✅ Aina ya mwanafunzi:</label>
-  <select id="studentType" onchange="toggleFields()" aria-required="true">
-    <option value="withLoan">-----weka chaguo la hari yako kama wewe ni mnufaika ama si mnufaika</option>
-    <option value="withLoan">📚 Nimepewa mkopo (HESLB)</option>
-    <option value="noLoan">🙋‍♂️ Sijapewa mkopo (Binafsi)</option>
-  </select>
+    <label for="studentType">✅ Aina ya mwanafunzi:</label>
+    <select id="studentType" onchange="toggleFields()" required aria-required="true">
+      <option value="" disabled selected>-- Chagua kama una mkopo au la --</option>
+      <option value="withLoan">📚 Nimepewa mkopo (HESLB)</option>
+      <option value="noLoan">🙋‍♂️ Sijapewa mkopo (Binafsi)</option>
+    </select>
 
-  <div id="loanFields">
-    <label for="loan">1. Jumla ya mkopo kutoka HESLB (TZS):</label>
-    <input type="number" id="loan" placeholder="Mfano: 4000000" min="0">
+    <div id="loanFields" style="display:none;">
+      <label for="loan">1. Jumla ya mkopo kutoka HESLB (TZS):</label>
+      <input type="number" id="loan" placeholder="Mfano: 4000000" min="0" />
 
-    <label for="fee">2. Jumla ya ada ya chuo kwa mwaka (TZS):</label>
-    <input type="number" id="fee" placeholder="Mfano: 3500000" min="0">
+      <label for="fee">2. Jumla ya ada ya chuo kwa mwaka (TZS):</label>
+      <input type="number" id="fee" placeholder="Mfano: 3500000" min="0" />
+    </div>
+
+    <div id="noLoanFields" style="display:none;">
+      <label for="feeNoLoan">1. Ada inayotakiwa kulipwa (TZS):</label>
+      <input type="number" id="feeNoLoan" placeholder="Mfano: 3500000" min="0" />
+    </div>
+
+    <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000):</label>
+    <textarea id="payments" rows="2" placeholder="Mfano: 500000,200000"></textarea>
+
+    <button onclick="hesabu()" aria-label="Bonyeza kukokotoa ada">💡 HESABU</button>
+
+    <div id="results" role="region" aria-live="polite"></div>
+
+    <button onclick="window.print()" style="margin-top: 15px;">🖨️ Chapisha Matokeo</button>
+
+    <div class="footer">
+      <p>
+        Imetengenezwa na <strong>Jackson Petro Haruni</strong><br />
+        📧 Email: <a href="mailto:harunijackson504@gmail.com">harunijackson504@gmail.com</a><br />
+        📅 <span id="todayDate"></span>
+      </p>
+    </div>
   </div>
 
-  <div id="noLoanFields" style="display:none;">
-    <label for="feeNoLoan">1. Ada inayotakiwa kulipwa (TZS):</label>
-    <input type="number" id="feeNoLoan" placeholder="Mfano: 3500000" min="0">
-  </div>
-
-  <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000): tafadhari usisahau kuweka koma(,)</label>
-  <textarea id="payments" rows="2" placeholder="Mfano: 500000,200000"></textarea>
-
-  <button onclick="hesabu()">💡 HESABU</button>
-
-  <div id="results" role="region" aria-live="polite"></div>
-</div>
-
-<script>
-function toggleFields() {
-  const type = document.getElementById("studentType").value;
-  document.getElementById("loanFields").style.display = (type === "withLoan") ? "block" : "none";
-  document.getElementById("noLoanFields").style.display = (type === "noLoan") ? "block" : "none";
-}
-
-function hesabu() {
-  const boomPerSemester = 617500;
-  const numberOfSemesters = 4;
-  const totalBoom = boomPerSemester * numberOfSemesters;
-  const type = document.getElementById("studentType").value;
-
-  const paymentsInput = document.getElementById("payments").value.trim();
-  const paymentsArray = paymentsInput ? paymentsInput.split(",").map(p => parseFloat(p.trim())) : [];
-
-  const validPayments = paymentsArray.filter(p => !isNaN(p) && p >= 0);
-  const totalSelfPayment = validPayments.reduce((sum, val) => sum + val, 0);
-
-  let results = "";
-
-  if (type === "withLoan") {
-    const loan = parseFloat(document.getElementById("loan").value);
-    const feeRequired = parseFloat(document.getElementById("fee").value);
-
-    if (isNaN(loan) || loan < 0 || isNaN(feeRequired) || feeRequired < 0) {
-      alert("⚠️ Tafadhali jaza mkopo na ada kwa usahihi.");
-      return;
+  <script>
+    // Onyesha sehemu sahihi kulingana na aina ya mwanafunzi
+    function toggleFields() {
+      const type = document.getElementById("studentType").value;
+      document.getElementById("loanFields").style.display = type === "withLoan" ? "block" : "none";
+      document.getElementById("noLoanFields").style.display = type === "noLoan" ? "block" : "none";
+      document.getElementById("results").innerHTML = ""; // Safisha matokeo ya zamani
     }
 
-    const feePaidByHESLB = loan - totalBoom;
-    const totalFeePaid = feePaidByHESLB + totalSelfPayment;
-    const feeRemaining = feeRequired - totalFeePaid;
+    function hesabu() {
+      const boomPerSemester = 617500;
+      const numberOfSemesters = 4;
+      const totalBoom = boomPerSemester * numberOfSemesters;
 
-    results += `
-      <strong>🔎 MATOKEO (Kwa waliopata mkopo):</strong><br><br>
-      💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br><br>
-      📅 Idadi ya semesters        : ${numberOfSemesters}<br><br>
-      💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br><br>
-      🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br><br>
-      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br><br>
-      🧾 Jumla ya ada iliyolipwa   : ${totalFeePaid.toLocaleString()} TZS<br><br>
-    `;
+      const type = document.getElementById("studentType").value;
 
-    if (feeRemaining > 0) {
-      results += `❗ Bado unadaiwa: ${feeRemaining.toLocaleString()} TZS<br>`;
-    } else if (feeRemaining === 0) {
-      results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
-    } else {
-      results += `🎉 Umezidisha malipo kwa: ${(-feeRemaining).toLocaleString()} TZS<br>`;
+      // Parse malipo binafsi
+      const paymentsInput = document.getElementById("payments").value.trim();
+      const paymentsArray = paymentsInput ? paymentsInput.split(",").map(p => parseFloat(p.trim())) : [];
+      const validPayments = paymentsArray.filter(p => !isNaN(p) && p >= 0);
+      const totalSelfPayment = validPayments.reduce((sum, val) => sum + val, 0);
+
+      let results = "";
+      const date = new Date().toLocaleString("sw-TZ");
+
+      if (type === "withLoan") {
+        const loan = parseFloat(document.getElementById("loan").value);
+        const feeRequired = parseFloat(document.getElementById("fee").value);
+
+        if (isNaN(loan) || loan < 0 || isNaN(feeRequired) || feeRequired < 0) {
+          alert("⚠️ Tafadhali jaza mkopo na ada kwa usahihi.");
+          return;
+        }
+
+        const feePaidByHESLB = loan - totalBoom;
+        const totalFeePaid = feePaidByHESLB + totalSelfPayment;
+        const feeRemaining = feeRequired - totalFeePaid;
+
+        results += `
+          <strong>🔎 MATOKEO (Kwa waliopata mkopo):</strong><br><br>
+          💸 Boom kwa muhula           : ${boomPerSemester.toLocaleString()} TZS<br>
+          📅 Idadi ya semesters        : ${numberOfSemesters}<br>
+          💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br>
+          🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br>
+          🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
+          🧾 Jumla ya ada iliyolipwa   : ${totalFeePaid.toLocaleString()} TZS<br><br>
+        `;
+
+        if (feeRemaining > 0) {
+          results += `❗ Bado unadaiwa: <strong>${feeRemaining.toLocaleString()} TZS</strong><br>`;
+        } else if (feeRemaining === 0) {
+          results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
+        } else {
+          results += `🎉 Umezidisha malipo kwa: <strong>${(-feeRemaining).toLocaleString()} TZS</strong><br>`;
+        }
+      } else if (type === "noLoan") {
+        const feeRequired = parseFloat(document.getElementById("feeNoLoan").value);
+
+        if (isNaN(feeRequired) || feeRequired < 0) {
+          alert("⚠️ Tafadhali jaza ada inayotakiwa.");
+          return;
+        }
+
+        const feeRemaining = feeRequired - totalSelfPayment;
+
+        results += `
+          <strong>🔎 MATOKEO (Kwa wasio na mkopo):</strong><br><br>
+          🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
+          🧾 Jumla ya ada inayotakiwa  : ${feeRequired.toLocaleString()} TZS<br><br>
+        `;
+
+        if (feeRemaining > 0) {
+          results += `❗ Bado unadaiwa: <strong>${feeRemaining.toLocaleString()} TZS</strong><br>`;
+        } else if (feeRemaining === 0) {
+          results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
+        } else {
+          results += `🎉 Umezidisha malipo kwa: <strong>${(-feeRemaining).toLocaleString()} TZS</strong><br>`;
+        }
+      } else {
+        alert("⚠️ Tafadhali chagua aina ya mwanafunzi.");
+        return;
+      }
+
+      results += `<br><em>📅 Tarehe na Saa ya Kukokotoa: ${date}</em>`;
+      document.getElementById("results").innerHTML = results;
     }
 
-  } else {
-    const feeRequired = parseFloat(document.getElementById("feeNoLoan").value);
-
-    if (isNaN(feeRequired) || feeRequired < 0) {
-      alert("⚠️ Tafadhali jaza ada inayotakiwa.");
-      return;
-    }
-
-    const feeRemaining = feeRequired - totalSelfPayment;
-
-    results += `
-      <strong>🔎 MATOKEO (Kwa wasio na mkopo):</strong><br><br>
-      🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
-      🧾 Jumla ya ada inayotakiwa  : ${feeRequired.toLocaleString()} TZS<br>
-    `;
-
-    if (feeRemaining > 0) {
-      results += `❗ Bado unadaiwa: ${feeRemaining.toLocaleString()} TZS<br>`;
-    } else if (feeRemaining === 0) {
-      results += `✅ Hongera! Umeshakamilisha ada yote.<br>`;
-    } else {
-      results += `🎉 Umezidisha malipo kwa: ${(-feeRemaining).toLocaleString()} TZS<br>`;
-    }
-  }
-
-  document.getElementById("results").innerHTML = results;
-}
-</script>
-
-<p>imetengenezwa na jackson petro haruni,<br>
-Gmail:  harunijackson504@gmail.com</p></body>
-</html>
+    // Ongeza tarehe ya leo chini ya footer
+    document.getElementById("todayDate").textContent = new Date().toLocaleDateString("sw-TZ", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  </script>
+</body>
