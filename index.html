@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kikokotozi cha Ada - Chuo cha elimu ya biashara ( CBE )</title>
+  <title>Kikokotozi cha Ada - Chuo cha Elimu ya Biashara (CBE)</title>
   <link rel="icon" href="logo.jpg" type="image/jpeg" />
   <style>
     body {
@@ -117,12 +117,12 @@
 </head>
 <body>
   <div class="calculator" aria-label="Kikokotozi cha Ada">
-    <h2>Kikokotozi cha Ada za Chuo elimu ya biashara ( CBE ) </h2>
-    <img src="logo.jpg" alt="Nembo ya Chuo cha college of business education" />
+    <h2>Kikokotozi cha Ada za Chuo Elimu ya Biashara (CBE)</h2>
+    <img src="logo.jpg" alt="Nembo ya Chuo cha CBE" />
 
-    <p><strong>Karibu!</strong> Tumia kikokotozi hiki kuhesabu ada yako kwa mwaka, deni la sasa, na muhtasari wa malipo.</p>
+    <p><strong>Karibu!</strong> Tumia kikokotozi hiki kuhesabu ada yako kwa mwaka kwa wanafunzi wote: waliopata mkopo (HESLB) na wasiopata (binafsi).</p>
 
-    <!-- Taarifa za mwanafunzi -->
+    <!-- Student Information Fields -->
     <label for="studentName">👤 Jina Kamili:</label>
     <input type="text" id="studentName" placeholder="Mfano: Asha Mussa" required />
 
@@ -135,7 +135,6 @@
     <label for="studyYear">📅 Mwaka wa Masomo:</label>
     <input type="text" id="studyYear" placeholder="Mfano: 2024/2025" required />
 
-    <!-- Aina ya mwanafunzi -->
     <label for="studentType">✅ Aina ya mwanafunzi:</label>
     <select id="studentType" onchange="toggleFields()" required>
       <option value="" disabled selected>-- Chagua kama una mkopo au la --</option>
@@ -143,21 +142,19 @@
       <option value="noLoan">🙋‍♂️ Sijapewa mkopo (Binafsi)</option>
     </select>
 
-    <!-- Waliopata mkopo -->
     <div id="loanFields" style="display:none;">
       <label for="loan">1. Jumla ya mkopo kutoka HESLB (TZS):</label>
       <input type="number" id="loan" placeholder="Mfano: 4000000" min="0" />
+
       <label for="fee">2. Jumla ya ada ya chuo kwa mwaka (TZS):</label>
       <input type="number" id="fee" placeholder="Mfano: 3500000" min="0" />
     </div>
 
-    <!-- Wasio na mkopo -->
     <div id="noLoanFields" style="display:none;">
       <label for="feeNoLoan">1. Ada inayotakiwa kulipwa (TZS):</label>
       <input type="number" id="feeNoLoan" placeholder="Mfano: 3500000" min="0" />
     </div>
 
-    <!-- Malipo binafsi -->
     <label for="payments">3. Malipo yako binafsi (andika kwa koma mfano: 500000,200000):</label>
     <textarea id="payments" rows="2" placeholder="Mfano: 500000,200000"></textarea>
 
@@ -165,7 +162,7 @@
 
     <div id="results" role="region" aria-live="polite"></div>
 
-    <button onclick="window.print()">🖨️ Chapisha Matokeo</button>
+    <button onclick="printIfValid()">🖨️ Chapisha Matokeo</button>
 
     <div class="footer">
       <p>
@@ -189,15 +186,14 @@
       const numberOfSemesters = 4;
       const totalBoom = boomPerSemester * numberOfSemesters;
 
-      const type = document.getElementById("studentType").value;
-
       const name = document.getElementById("studentName").value.trim();
       const reg = document.getElementById("regNumber").value.trim();
       const program = document.getElementById("program").value.trim();
       const year = document.getElementById("studyYear").value.trim();
+      const type = document.getElementById("studentType").value;
 
-      if (!name || !reg || !program || !year) {
-        alert("⚠️ Tafadhali jaza taarifa zote za mwanafunzi.");
+      if (!name || !reg || !program || !year || !type) {
+        alert("⚠️ Tafadhali jaza taarifa zote muhimu kabla ya kuendelea.");
         return;
       }
 
@@ -230,9 +226,9 @@
         const feeRemaining = feeRequired - totalFeePaid;
 
         results += `
-          <strong>🔎 MATOKEO (Kwa waliopata mkopo):</strong><br><br>
+          <strong>🔎 MATOKEO (Waliopata mkopo):</strong><br><br>
           💸 Boom kwa mala moja           : ${boomPerSemester.toLocaleString()} TZS<br>
-          📅 Idadi ya kupokea boom        : ${numberOfSemesters}<br>
+          📅 Idadi ulizo pokea boom        : ${numberOfSemesters}<br>
           💰 Jumla ya boom             : ${totalBoom.toLocaleString()} TZS<br>
           🏦 Ada iliyolipwa na HESLB   : ${feePaidByHESLB.toLocaleString()} TZS<br>
           🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
@@ -246,6 +242,7 @@
         } else {
           results += `🎉 Umezidisha malipo kwa: <strong>${(-feeRemaining).toLocaleString()} TZS</strong><br>`;
         }
+
       } else if (type === "noLoan") {
         const feeRequired = parseFloat(document.getElementById("feeNoLoan").value);
 
@@ -257,7 +254,7 @@
         const feeRemaining = feeRequired - totalSelfPayment;
 
         results += `
-          <strong>🔎 MATOKEO (Kwa wasio na mkopo):</strong><br><br>
+          <strong>🔎 MATOKEO (Binafsi):</strong><br><br>
           🙋‍♂️ Ada uliyojilipia        : ${totalSelfPayment.toLocaleString()} TZS<br>
           🧾 Jumla ya ada inayotakiwa  : ${feeRequired.toLocaleString()} TZS<br><br>
         `;
@@ -269,13 +266,31 @@
         } else {
           results += `🎉 Umezidisha malipo kwa: <strong>${(-feeRemaining).toLocaleString()} TZS</strong><br>`;
         }
-      } else {
-        alert("⚠️ Tafadhali chagua aina ya mwanafunzi.");
-        return;
       }
 
       results += `<br><em>📅 Tarehe na Saa ya Kukokotoa: ${date}</em>`;
       document.getElementById("results").innerHTML = results;
+    }
+
+    function printIfValid() {
+      const name = document.getElementById("studentName").value.trim();
+      const reg = document.getElementById("regNumber").value.trim();
+      const program = document.getElementById("program").value.trim();
+      const year = document.getElementById("studyYear").value.trim();
+      const type = document.getElementById("studentType").value;
+      const resultsContent = document.getElementById("results").innerHTML.trim();
+
+      if (!name || !reg || !program || !year || !type) {
+        alert("⚠️ Tafadhali jaza taarifa zote muhimu kabla ya kuchapisha.");
+        return;
+      }
+
+      if (resultsContent === "") {
+        alert("⚠️ Tafadhali bofya 'HESABU' kwanza kabla ya kuchapisha.");
+        return;
+      }
+
+      window.print();
     }
 
     document.getElementById("todayDate").textContent = new Date().toLocaleDateString("sw-TZ", {
